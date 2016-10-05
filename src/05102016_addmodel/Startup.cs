@@ -92,6 +92,7 @@ namespace _05102016_addmodel
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            SeedData.Initialize(app.ApplicationServices);
         }
     }
 }
