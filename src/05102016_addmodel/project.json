@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-_05102016_addmodel-056b78d6-c4b1-4027-b343-838b100e5c36",
 
   "dependencies": {
@@ -40,10 +40,11 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc":  {
+    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Microsoft.AspNetCore.Mvc.ViewFeatures": "1.0.0"
   },
 
   "tools": {

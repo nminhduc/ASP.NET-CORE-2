@@ -20,15 +20,32 @@ namespace _05102016_addmodel.Controllers
         }
 
         // GET: Movies
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string movieGenre, string searchString)
         {
+            IQueryable<string> genreQuery = from m in _context.Movie
+                                            orderby m.Gener
+                                            select m.Gener;
+
             var movies = from m in _context.Movie
                          select m;
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 movies = movies.Where(s => s.Title.Contains(searchString));
             }
-            return View(await movies.ToListAsync());
+
+            if(!String.IsNullOrEmpty(movieGenre))
+            {
+                movies = movies.Where(x => x.Gener == movieGenre);
+            }
+
+            var movieGenreVM = new MovieGenreViewModel();
+            movieGenreVM.genres = new SelectList(await genreQuery.Distinct().ToListAsync());
+            movieGenreVM.movies = await movies.ToListAsync();
+
+            return View(movieGenreVM);
+
+            //return View(await movies.ToListAsync());
         }
 
         //[httppost]
@@ -65,7 +82,7 @@ namespace _05102016_addmodel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Gener,Price,ReleaseData,Title")] Movie movie)
+        public async Task<IActionResult> Create([Bind("ID,Gener,Price,ReleaseData,Title,Rating")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +114,7 @@ namespace _05102016_addmodel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Gener,Price,ReleaseData,Title")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Gener,Price,ReleaseData,Title,Rating")] Movie movie)
         {
             if (id != movie.ID)
             {
